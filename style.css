@@ -3,4 +3,13 @@
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(4, 1fr);
   border: 1px solid red;
+  margin: 150px 300px 0 300px;
+}
+
+.screen {
+  grid-column: 1 / 5;
+}
+
+.clear {
+
 }
