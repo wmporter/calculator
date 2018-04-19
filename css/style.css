@@ -8,11 +8,10 @@
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 10px;
-  grid-column-gap: 10px;
-  border: 1px solid red;
-  margin: 150px 300px 0 300px;
+  border: 15px solid #1a4589;
+  margin: 150px 280px 0 280px;
   background-color: #285fb7;
-  justify-content: center;
+  border-radius: 12px;
 }
 
 .screen {
@@ -25,15 +24,56 @@
 }
 
 button {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   border-radius: 20px;
   border: 5px solid #1a4589;
   background-color: #285fb7;
   color: white;
   font-size: 3em;
+  box-shadow: 0 0 3px 1px;
 }
 
 .clear {
+  justify-self: center;
+}
 
+.number {
+  justify-self: center;
+}
+
+.percent {
+  justify-self: center;
+}
+
+.squareroot {
+  justify-self: center;
+}
+
+.subtract {
+  justify-self: center;
+}
+
+.multiply {
+  justify-self: center;
+}
+
+.divide {
+  justify-self: center;
+}
+
+.add {
+  justify-self: center;
+}
+
+.equal {
+  justify-self: center;
+}
+
+.decimal {
+  justify-self: center;
+}
+
+.negative {
+  justify-self: center;
 }
