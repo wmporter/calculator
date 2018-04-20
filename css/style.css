@@ -34,46 +34,34 @@ button {
   box-shadow: 0 0 3px 1px;
 }
 
+.buttons {
+  justify-self: center;
+}
+
+.operation {
+  background-color: #42b3f4;
+}
+
 .clear {
-  justify-self: center;
+  background-color: #ce5623;
 }
 
-.number {
-  justify-self: center;
+.delete {
+  background-color: #ce2c00;
 }
 
-.percent {
-  justify-self: center;
+.equals {
+  background-color: #59ce23;
 }
 
-.squareroot {
-  justify-self: center;
+#eqbut {
+  grid-column: 3 / 5;
 }
 
-.subtract {
-  justify-self: center;
+#eqbutton {
+  width: 220px;
 }
 
-.multiply {
-  justify-self: center;
-}
-
-.divide {
-  justify-self: center;
-}
-
-.add {
-  justify-self: center;
-}
-
-.equal {
-  justify-self: center;
-}
-
-.decimal {
-  justify-self: center;
-}
-
-.negative {
-  justify-self: center;
+.augment {
+  background-color: #7244fc;
 }
