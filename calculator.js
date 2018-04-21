@@ -1,14 +1,8 @@
-//when numbers are pressed, string version of num gets added to stringnum array
-//when non-num is pressed, turn num string into number, put number into final array
-//put operation in final array
-//when numbers are pressed, string version of num gets added to stringnum array
-//repeat
-
-//screen can display max 7 numbers including decimal
-
-function changeScreen(specialInstruction) {
+function changeScreen(specialInstruction = 'none') {
   if (specialInstruction === 'clear') {
     screen.textContent = 0;
+  } else if (specialInstruction === 'answer') {
+    screen.textContent = numsAndOperations;
   } else if (specialInstruction !== 'none') {
     screen.textContent = specialInstruction;
   } else {
@@ -16,20 +10,13 @@ function changeScreen(specialInstruction) {
   }
 }
 
-const operations = {
-  add: (num1, num2) => num1 + num2,
-  subtract: (num1, num2) => num1 - num2,
-  multiply: (num1, num2) => num1 * num2,
-  divide: (num1, num2) => num1 / num2
-};
-
 const numButtons = document.querySelectorAll('.number')
 numButtons.forEach(function(currentBut) {
   currentBut.addEventListener('click', function() {
     let text = currentBut.textContent;
-    if (temporaryNums.length < 7) {
+    if (temporaryNums.length < 8) {
       temporaryNums += text;
-      changeScreen('none');
+      changeScreen();
     }
   });
 });
@@ -48,7 +35,7 @@ deleteKey.addEventListener('click', function() {
     changeScreen('clear');
   } else if (temporaryNums.length > 1) {
     temporaryNums = temporaryNums.slice(0, temporaryNums.length - 1);
-    changeScreen('none');
+    changeScreen();
   }
 });
 
@@ -58,10 +45,10 @@ negative.addEventListener('click', function() {
     return;
   } else if (temporaryNums[0] !== '-') {
     temporaryNums = '-' + temporaryNums;
-    changeScreen('none')
+    changeScreen()
   } else {
     temporaryNums = temporaryNums.slice(1);
-    changeScreen('none');
+    changeScreen();
   }
 });
 
@@ -76,8 +63,77 @@ operationButtons.forEach(function(currentBut) {
   });
 });
 
-  // equals: document.getElementsByClassName('equals')
+const decimal = document.getElementById('decimal');
+decimal.addEventListener('click', function() {
+  if (temporaryNums.length === 0) {
+    temporaryNums += '0.';
+    changeScreen();
+  } else {
+    temporaryNums += '.';
+    changeScreen();
+  }
+});
 
 const screen = document.getElementById('screentext');
 let numsAndOperations = [];
 let temporaryNums = '';
+const operations = {
+  add: (num1, num2) => num1 + num2,
+  subtract: (num1, num2) => num1 - num2,
+  multiply: (num1, num2) => num1 * num2,
+  divide: function(num1, num2) {
+    if (num2 === 0) {
+      screen.textContent = 'Nah, yo!';
+      numsAndOperations = [];
+      temporaryNums = '';
+    } else {
+      return num1 / num2;
+    }
+  }
+};
+
+const equals = document.getElementById('eqbutton');
+equals.addEventListener('click', function() {
+  numsAndOperations.push(Number(temporaryNums));
+  if (numsAndOperations.length === 0) {
+    return;
+  } else {
+    while (numsAndOperations.length > 1) {
+      for (let i = 1; i < numsAndOperations.length; i += 2) {
+        let operator = numsAndOperations[i];
+        let num1 = numsAndOperations[i - 1];
+        let num2 = numsAndOperations[i + 1];
+        if (operator === 'x') {
+          numsAndOperations[i - 1] = operations.multiply(num1, num2);
+          numsAndOperations.splice(i, 2);
+          i -= 2;
+        } else if (operator === '÷') {
+          numsAndOperations[i - 1] = operations.divide(num1, num2);
+          numsAndOperations.splice(i, 2);
+          i -= 2;
+        } else if (operator === '+') {
+          let safeToAdd = (numsAndOperations.indexOf('x') < 0 &&
+                           numsAndOperations.indexOf('÷') < 0)
+          if (safeToAdd) {
+            numsAndOperations[i - 1] = operations.add(num1, num2);
+            numsAndOperations.splice(i, 2);
+            i -= 2;
+          }
+        } else {
+          let safeToSubtract = (numsAndOperations.indexOf('x') < 0 &&
+                                numsAndOperations.indexOf('÷') < 0)
+          if (safeToSubtract) {
+            numsAndOperations[i - 1] = operations.subtract(num1, num2);
+            numsAndOperations.splice(i, 2);
+            i -= 2;
+          }
+        }
+      }
+    }
+    if (screen.textContent !== 'Nah, yo!') {
+      changeScreen('answer');
+      temporaryNums = '';
+      numsAndOperations = [];
+    }
+  }
+})
