@@ -6,6 +6,10 @@
 
 //screen can display max 7 numbers including decimal
 
+function changeScreen() {
+  console.log(Number(temporaryNums));
+}
+
 const operations = {
   add: (num1, num2) => num1 + num2,
   subtract: (num1, num2) => num1 - num2,
@@ -13,27 +17,29 @@ const operations = {
   divide: (num1, num2) => num1 / num2
 };
 
-const buttons = {
-  zero: document.getElementsByClassName('zero'),
-  one: document.getElementsByClassName('one'),
-  two: document.getElementsByClassName('two'),
-  three: document.getElementsByClassName('three'),
-  four: document.getElementsByClassName('four'),
-  five: document.getElementsByClassName('five'),
-  six: document.getElementsByClassName('six'),
-  seven: document.getElementsByClassName('seven'),
-  eight: document.getElementsByClassName('eight'),
-  nine: document.getElementsByClassName('nine'),
+const numButtons = document.querySelectorAll('.number')
+numButtons.forEach(function(currentBut) {
+  currentBut.addEventListener('click', function() {
+    let text = currentBut.textContent;
+    if (temporaryNums.length < 7) {
+      temporaryNums += text;
+      changeScreen();
+    }
+  });
+});
+
+const otherButtons = {
   clear: document.getElementsByClassName('clear'),
   delete: document.getElementsByClassName('delete'),
   negative: document.getElementsByClassName('negative'),
-  add: document.getElementsByClassName('add'),
-  subtract: document.getElementsByClassName('subtract'),
-  multiply: document.getElementsByClassName('multiply'),
-  divide: document.getElementsByClassName('divide'),
-  decimal: document.getElementsByClassName('decimal'),
+  '+': document.getElementsByClassName('add'),
+  '-': document.getElementsByClassName('subtract'),
+  '*': document.getElementsByClassName('multiply'),
+  '/': document.getElementsByClassName('divide'),
+  '.': document.getElementsByClassName('decimal'),
   equals: document.getElementsByClassName('equals')
-};
+}
 
+const screen = document.getElementsByClassName('screen');
 const numsAndOperations = [];
 let temporaryNums = '';
