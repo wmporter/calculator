@@ -2,7 +2,24 @@ function changeScreen(specialInstruction = 'none') {
   if (specialInstruction === 'clear') {
     screen.textContent = 0;
   } else if (specialInstruction === 'answer') {
-    screen.textContent = numsAndOperations;
+    let numText = String(numsAndOperations);
+    if (numText.length <= 8) {
+      screen.textContent = numsAndOperations;
+    } else {
+      if (numText.indexOf('.') !== -1) {
+        if (numText.slice(2, 8) === '000000') {
+          screen.textContent = 0;
+        } else {
+          screen.textContent = Number(numText).toFixed(6);
+        }
+      } else {
+        let ones = numText.slice(0,1);
+        let decimals = numText.slice(1,4);
+        let extra = numText.length - 1;
+        let scientificNotation = ones + '.' + decimals + 'e' + extra;
+        screen.textContent = scientificNotation;
+      }
+    }
   } else if (specialInstruction !== 'none') {
     screen.textContent = specialInstruction;
   } else {
