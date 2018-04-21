@@ -6,11 +6,14 @@ function changeScreen(specialInstruction = 'none') {
     if (numText.length <= 8) {
       screen.textContent = numsAndOperations;
     } else {
-      if (numText.indexOf('.') !== -1) {
+      if (numText.indexOf('.') !== -1 &&
+          numText.indexOf('.') < 6) {
         if (numText.slice(2, 8) === '000000') {
           screen.textContent = 0;
         } else {
-          screen.textContent = Number(numText).toFixed(6);
+          let fixedAmount = 6;
+          fixedAmount -= (numText.indexOf('.') - 1);
+          screen.textContent = Number(numText).toFixed(fixedAmount);
         }
       } else {
         let ones = numText.slice(0,1);
@@ -27,7 +30,7 @@ function changeScreen(specialInstruction = 'none') {
   }
 }
 
-const numButtons = document.querySelectorAll('.number')
+const numButtons = document.querySelectorAll('.number');
 numButtons.forEach(function(currentBut) {
   currentBut.addEventListener('click', function() {
     let text = currentBut.textContent;

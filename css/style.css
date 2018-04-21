@@ -32,7 +32,17 @@ button {
   background-color: #285fb7;
   color: white;
   font-size: 3em;
-  box-shadow: 0 0 3px 1px;
+  box-shadow: 0 0 185px 1px;
+}
+
+button:hover {
+  background-color: #ce003a;
+  border: 5px solid #d8d8d8;
+}
+
+button:focus {
+  outline: 0;
+  border: 5px solid #d8d8d8;
 }
 
 .buttons {
@@ -43,11 +53,11 @@ button {
   background-color: #42b3f4;
 }
 
-#clear {
+.clear {
   background-color: #ce5623;
 }
 
-#delete {
+.delete {
   background-color: #ce2c00;
 }
 
