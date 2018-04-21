@@ -6,8 +6,14 @@
 
 //screen can display max 7 numbers including decimal
 
-function changeScreen() {
-  console.log(Number(temporaryNums));
+function changeScreen(specialInstruction) {
+  if (specialInstruction === 'clear') {
+    screen.textContent = 0;
+  } else if (specialInstruction !== 'none') {
+    screen.textContent = specialInstruction;
+  } else {
+    screen.textContent = temporaryNums;
+  }
 }
 
 const operations = {
@@ -23,23 +29,55 @@ numButtons.forEach(function(currentBut) {
     let text = currentBut.textContent;
     if (temporaryNums.length < 7) {
       temporaryNums += text;
-      changeScreen();
+      changeScreen('none');
     }
   });
 });
 
-const otherButtons = {
-  clear: document.getElementsByClassName('clear'),
-  delete: document.getElementsByClassName('delete'),
-  negative: document.getElementsByClassName('negative'),
-  '+': document.getElementsByClassName('add'),
-  '-': document.getElementsByClassName('subtract'),
-  '*': document.getElementsByClassName('multiply'),
-  '/': document.getElementsByClassName('divide'),
-  '.': document.getElementsByClassName('decimal'),
-  equals: document.getElementsByClassName('equals')
-}
+const clear = document.getElementById('clear');
+clear.addEventListener('click', function() {
+  temporaryNums = '';
+  changeScreen('clear');
+  numsAndOperations = [];
+});
 
-const screen = document.getElementsByClassName('screen');
-const numsAndOperations = [];
+const deleteKey = document.getElementById('delete');
+deleteKey.addEventListener('click', function() {
+  if (temporaryNums.length === 1) {
+    temporaryNums = '';
+    changeScreen('clear');
+  } else if (temporaryNums.length > 1) {
+    temporaryNums = temporaryNums.slice(0, temporaryNums.length - 1);
+    changeScreen('none');
+  }
+});
+
+const negative = document.getElementById('negative');
+negative.addEventListener('click', function() {
+  if (temporaryNums.length === 0) {
+    return;
+  } else if (temporaryNums[0] !== '-') {
+    temporaryNums = '-' + temporaryNums;
+    changeScreen('none')
+  } else {
+    temporaryNums = temporaryNums.slice(1);
+    changeScreen('none');
+  }
+});
+
+const operationButtons = document.querySelectorAll('.operation');
+operationButtons.forEach(function(currentBut) {
+  currentBut.addEventListener('click', function() {
+    numsAndOperations.push(Number(temporaryNums));
+    let text = currentBut.textContent;
+    numsAndOperations.push(text);
+    temporaryNums = '';
+    changeScreen(text);
+  });
+});
+
+  // equals: document.getElementsByClassName('equals')
+
+const screen = document.getElementById('screentext');
+let numsAndOperations = [];
 let temporaryNums = '';

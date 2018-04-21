@@ -42,11 +42,11 @@ button {
   background-color: #42b3f4;
 }
 
-.clear {
+#clear {
   background-color: #ce5623;
 }
 
-.delete {
+#delete {
   background-color: #ce2c00;
 }
 

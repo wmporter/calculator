@@ -7,10 +7,10 @@
   </head>
   <body>
     <div class="calculator">
-      <div class="screen">0</div>
-      <div class="buttons"><button type="button" class="clear operation">C</button></div>
-      <div class="buttons"><button type="button" class="delete">del</button></div>
-      <div class="buttons"><button type="button" class="negative augment">+/-</button></div>
+      <div class="screen"><span id="screentext">0</span></div>
+      <div class="buttons"><button type="button" id="clear">C</button></div>
+      <div class="buttons"><button type="button" id="delete">del</button></div>
+      <div class="buttons"><button type="button" id="negative" class="augment">+/-</button></div>
       <div class="buttons"><button type="button" class="add operation">+</button></div>
       <div class="buttons"><button type="button" class="number seven">7</button></div>
       <div class="buttons"><button type="button" class="number eight">8</button></div>
@@ -25,8 +25,8 @@
       <div class="buttons"><button type="button" class="number three">3</button></div>
       <div class="buttons"><button type="button" class="divide operation">÷</button></div>
       <div class="buttons"><button type="button" class="number zero">0</button></div>
-      <div class="buttons"><button type="button" class="decimal augment">.</button></div>
-      <div class="buttons" id="eqbut"><button type="button" class="equals operation" id="eqbutton">=</button></div>
+      <div class="buttons"><button type="button" class="augment">.</button></div>
+      <div class="buttons" id="eqbut"><button type="button" class="equals" id="eqbutton">=</button></div>
     </div>
     <script type="text/javascript" src="calculator.js"></script>
   </body>
