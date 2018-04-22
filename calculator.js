@@ -157,3 +157,21 @@ equals.addEventListener('click', function() {
     }
   }
 })
+
+document.addEventListener('keydown', function(event) {
+  let keyName = event.key;
+  if ((keyName === '1' ||
+      keyName === '2' ||
+      keyName === '3' ||
+      keyName === '4' ||
+      keyName === '5' ||
+      keyName === '6' ||
+      keyName === '7' ||
+      keyName === '8' ||
+      keyName === '9' ||
+      keyName === '0') &&
+      temporaryNums.length < 8) {
+        temporaryNums += Number(keyName);
+        changeScreen();
+      }
+})
