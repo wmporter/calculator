@@ -30,26 +30,13 @@ function changeScreen(specialInstruction = 'none') {
   }
 }
 
-const numButtons = document.querySelectorAll('.number');
-numButtons.forEach(function(currentBut) {
-  currentBut.addEventListener('click', function() {
-    let text = currentBut.textContent;
-    if (temporaryNums.length < 8) {
-      temporaryNums += text;
-      changeScreen();
-    }
-  });
-});
-
-const clear = document.getElementById('clear');
-clear.addEventListener('click', function() {
+function pressClear() {
   temporaryNums = '';
   changeScreen('clear');
   numsAndOperations = [];
-});
+}
 
-const deleteKey = document.getElementById('delete');
-deleteKey.addEventListener('click', function() {
+function pressDelete() {
   if (temporaryNums.length === 1) {
     temporaryNums = '';
     changeScreen('clear');
@@ -57,34 +44,9 @@ deleteKey.addEventListener('click', function() {
     temporaryNums = temporaryNums.slice(0, temporaryNums.length - 1);
     changeScreen();
   }
-});
+}
 
-const negative = document.getElementById('negative');
-negative.addEventListener('click', function() {
-  if (temporaryNums.length === 0) {
-    return;
-  } else if (temporaryNums[0] !== '-') {
-    temporaryNums = '-' + temporaryNums;
-    changeScreen()
-  } else {
-    temporaryNums = temporaryNums.slice(1);
-    changeScreen();
-  }
-});
-
-const operationButtons = document.querySelectorAll('.operation');
-operationButtons.forEach(function(currentBut) {
-  currentBut.addEventListener('click', function() {
-    numsAndOperations.push(Number(temporaryNums));
-    let text = currentBut.textContent;
-    numsAndOperations.push(text);
-    temporaryNums = '';
-    changeScreen(text);
-  });
-});
-
-const decimal = document.getElementById('decimal');
-decimal.addEventListener('click', function() {
+function pressDecimal() {
   if (temporaryNums.length === 0) {
     temporaryNums += '0.';
     changeScreen();
@@ -92,28 +54,9 @@ decimal.addEventListener('click', function() {
     temporaryNums += '.';
     changeScreen();
   }
-});
+}
 
-const screen = document.getElementById('screentext');
-let numsAndOperations = [];
-let temporaryNums = '';
-const operations = {
-  add: (num1, num2) => num1 + num2,
-  subtract: (num1, num2) => num1 - num2,
-  multiply: (num1, num2) => num1 * num2,
-  divide: function(num1, num2) {
-    if (num2 === 0) {
-      screen.textContent = 'Nah, yo!';
-      numsAndOperations = [];
-      temporaryNums = '';
-    } else {
-      return num1 / num2;
-    }
-  }
-};
-
-const equals = document.getElementById('eqbutton');
-equals.addEventListener('click', function() {
+function pressEquals() {
   numsAndOperations.push(Number(temporaryNums));
   if (numsAndOperations.length === 0) {
     return;
@@ -156,22 +99,117 @@ equals.addEventListener('click', function() {
       numsAndOperations = [];
     }
   }
-})
+}
+
+const numButtons = document.querySelectorAll('.number');
+numButtons.forEach(function(currentBut) {
+  currentBut.addEventListener('click', function() {
+    let text = currentBut.textContent;
+    if (temporaryNums.length < 8) {
+      temporaryNums += text;
+      changeScreen();
+    }
+  });
+});
+
+const clear = document.getElementById('clear');
+clear.addEventListener('click', pressClear);
+
+const deleteKey = document.getElementById('delete');
+deleteKey.addEventListener('click', pressDelete);
+
+const negative = document.getElementById('negative');
+negative.addEventListener('click', function() {
+  if (temporaryNums.length === 0) {
+    return;
+  } else if (temporaryNums[0] !== '-') {
+    temporaryNums = '-' + temporaryNums;
+    changeScreen()
+  } else {
+    temporaryNums = temporaryNums.slice(1);
+    changeScreen();
+  }
+});
+
+const operationButtons = document.querySelectorAll('.operation');
+operationButtons.forEach(function(currentBut) {
+  currentBut.addEventListener('click', function() {
+    numsAndOperations.push(Number(temporaryNums));
+    let text = currentBut.textContent;
+    numsAndOperations.push(text);
+    temporaryNums = '';
+    changeScreen(text);
+  });
+});
+
+const decimal = document.getElementById('decimal');
+decimal.addEventListener('click', pressDecimal);
+
+const screen = document.getElementById('screentext');
+
+let numsAndOperations = [];
+let temporaryNums = '';
+
+const operations = {
+  add: (num1, num2) => num1 + num2,
+  subtract: (num1, num2) => num1 - num2,
+  multiply: (num1, num2) => num1 * num2,
+  divide: function(num1, num2) {
+    if (num2 === 0) {
+      screen.textContent = 'Nah, yo!';
+      numsAndOperations = [];
+      temporaryNums = '';
+    } else {
+      return num1 / num2;
+    }
+  }
+};
+
+const equals = document.getElementById('eqbutton');
+equals.addEventListener('click', pressEquals);
 
 document.addEventListener('keydown', function(event) {
   let keyName = event.key;
-  if ((keyName === '1' ||
-      keyName === '2' ||
-      keyName === '3' ||
-      keyName === '4' ||
-      keyName === '5' ||
-      keyName === '6' ||
-      keyName === '7' ||
-      keyName === '8' ||
-      keyName === '9' ||
-      keyName === '0') &&
-      temporaryNums.length < 8) {
-        temporaryNums += Number(keyName);
-        changeScreen();
-      }
-})
+  console.log('key name is', keyName, 'event.key is', event.key);
+  if ((Number(keyName) >= 0 || Number(keyName) <= 9)
+       && temporaryNums.length < 8) {
+    temporaryNums += Number(keyName);
+    changeScreen();
+  } else if (keyName === '=') {
+      pressEquals();
+  } else if (keyName === '+' || keyName === '-') {
+      numsAndOperations.push(Number(temporaryNums));
+      let text = keyName;
+      numsAndOperations.push(text);
+      temporaryNums = '';
+      changeScreen(text);
+  } else if (keyName === '*') {
+      numsAndOperations.push(Number(temporaryNums));
+      let text = 'x';
+      numsAndOperations.push(text);
+      temporaryNums = '';
+      changeScreen(text);
+  } else if (keyName === '/') {
+      numsAndOperations.push(Number(temporaryNums));
+      let text = '÷';
+      numsAndOperations.push(text);
+      temporaryNums = '';
+      changeScreen(text);
+  } else if (keyName === 'Clear') {
+      pressClear();
+  } else if (keyName === 'Backspace' || keyName === 'Delete') {
+      pressDelete();
+  } else if (keyName === '.') {
+      pressDecimal();
+  }
+});
+
+//This event listener exists because putting event.key === 'Enter' in
+//the previous anonymous function did not actually trigger anything
+//happening. Why? I do not know. The code is the exact same. Explain
+//this to me, please.
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    pressEquals();
+  }
+});

@@ -13,6 +13,8 @@
   padding-bottom: 15px;
   background-color: #285fb7;
   border-radius: 12px;
+  max-width: 460px;
+  min-width: 460px;
 }
 
 .screen {
@@ -71,6 +73,7 @@ button:focus {
 
 #eqbutton {
   width: 220px;
+  border: 5px solid #1a4589;
 }
 
 .augment {
